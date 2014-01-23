@@ -10,69 +10,39 @@ def start( stdscr ):
 	x = 0
 	y = 0
 
+	colors = utility.init_colors( )
+
 	for y in range( 2, 23 ):
 	#{
-		if not ( y == 22 ):
+		for x in range( 6, 23, 8 ):
 		#{
-			for x in range( 6, 23, 8 ):
+			inp = 0 
+			while ( True ):
 			#{
-				inp = 0 
-				while ( True ):
+				inp = u.getch( )
+				if ( inp >= 48 and inp <= 51 and y != 22 ):
 				#{
-					inp = u.getch( )
-					if ( inp == 48 ):
-					#{
-						table_fill_shanghai.pointNoScore( stdscr, y, x )
-						break
-					#}
-					elif ( inp == 49 ):
-					#{
-						table_fill_shanghai.pointSingle( stdscr, y, x )
-						total += ( y - 1 )
-						break
-					#}
-					elif ( inp == 50 ):
-					#{
-						table_fill_shanghai.pointDouble( stdscr, y, x )
-						total += ( y - 1 ) * 2
-						break
-					#}
-					elif ( inp == 51 ):
-					#{
-						table_fill_shanghai.pointTriple( stdscr, y, x )
-						total += ( y - 1 ) * 3
-						break
-					#}
+					pick = table_fill_shanghai.points( stdscr, y, x, inp, colors )
+					total += ( y - 1 ) * pick
+					break
 				#}
-				lines_sum_shanghai.update( y, percentage, inp, stdscr, total, score, colperc, x )
-			#}
-		#}		
-		else:
-		#{
-			for x in range( 6, 23, 8 ):
-			#{
-				while ( True ):
+				elif ( inp >= 48 and inp <= 50 ):
 				#{
-					inp = u.getch( )
-					if ( inp >= 48 and inp <= 50 ):
-					#{
-						type_ = table_fill_shanghai.pointBull( stdscr, y, x, inp - 48 )
-						#print( str( inp - 48 ) )
-						if ( inp - 48 == 1 ):
-							total += ( y + 3 )
-						elif ( inp - 48 == 2 ):
-							total += ( y + 3 ) * 2
-						break
-					#}
+					pick = table_fill_shanghai.points( stdscr, y, x, inp, colors )
+					total += ( y + 3 ) * ( pick - 1 )
+					break
 				#}
-				lines_sum_shanghai.update( y, percentage, inp, stdscr, total, score, colperc, x )
 			#}
+			lines_sum_shanghai.update( y, percentage, inp, stdscr, total, score, colperc, x )
 		#}
 	#}
 #}
 
 def init( ):
 #{
+	global utility
+	import utility
+
 	global u
 	import unicurses as u
 

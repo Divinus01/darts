@@ -1,78 +1,61 @@
-def pointNoScore( stdscr, y, x ):
+def points( stdscr, y, x, inp, colors ):
 #{
 	pos_y = y
 	pos_x = x
 	u.move( pos_y, pos_x )
-	u.addstr( " --- " )
-#}
+	prfix = ""
+	suffix = None
+	pick = 0
 
-def pointSingle( stdscr, y, x ):
-#{
-	pos_y = y
-	pos_x = x
-	u.move( pos_y, pos_x )
-	u.init_pair( 1, u.COLOR_YELLOW, u.COLOR_BLACK )
-	if ( y < 11 ):
-	#{
-		u.addstr( "  0{:d} ".format( y - 1 ), u.color_pair( 1 ) )
-	#}
-	else:
-	#{
-		u.addstr( "  {:d} ".format( y - 1 ), u.color_pair( 1 ) )
-	#}
-#}
-
-def pointDouble( stdscr, y, x ):
-#{
-	pos_y = y
-	pos_x = x
-	u.move( pos_y, pos_x )
-	u.init_pair( 2, u.COLOR_GREEN, u.COLOR_BLACK )
-	if ( y < 11 ):
-	#{
-		u.addstr( " D0{:d} ".format( y - 1 ), u.color_pair( 2 ) )
-	#}
-	else:
-	#{
-		u.addstr( " D{:d} ".format( y - 1 ), u.color_pair( 2 ) )
-	#}
-#}
-
-def pointTriple( stdscr, y, x ):
-#{
-	pos_y = y
-	pos_x = x
-	u.move( pos_y, pos_x )
-	u.init_pair( 3, u.COLOR_RED, u.COLOR_BLACK )
-	if ( y < 11 ):
-	#{
-		u.addstr( " T0{:d} ".format( y - 1 ), u.color_pair( 3 ) )
-	#}
-	else:
-	#{
-		u.addstr( " T{:d} ".format( y - 1 ), u.color_pair( 3 ) )
-	#}
-#}
-
-def pointBull( stdscr, y, x, hit ):
-#{
-	pos_y = y
-	pos_x = x
-	u.move( pos_y, pos_x )
-	u.init_pair( 2, u.COLOR_GREEN, u.COLOR_BLACK )
-	u.init_pair( 3, u.COLOR_RED, u.COLOR_BLACK )
-	if ( hit == 0 ):
+	if ( inp == 48 ):
 	#{
 		u.addstr( " --- " )
+		return pick
 	#}
-	elif ( hit == 1 ):
+	elif ( inp == 49 ):
 	#{
-		u.addstr( " SBL ", u.color_pair( 2 ))
+		prfix = " "
+		pick = 1
 	#}
-	elif ( hit == 2 ):
+	elif ( inp == 50 ):
 	#{
-		u.addstr( " DBL ", u.color_pair( 3 ) )
+		prfix = "D"
+		pick = 2
 	#}
+	elif ( inp == 51 ):
+	#{
+		prfix = "T"
+		pick = 3
+	#}
+
+	if ( y != 22 ):
+	#{
+		suffix = y - 1
+	#}
+	else:
+	#{
+		suffix = "BL"
+		pick = 2
+		if ( inp == 50 ):
+		#{
+			prfix = "B"
+			suffix = "LL"
+			pick = 3
+		#}
+	#}
+
+	if ( pick != None ):
+	#{
+		if ( y < 11 ):
+		#{
+			u.addstr( " {}0{} ".format( prfix, suffix ), colors[ pick ]  )
+		#}
+		else:
+		#{
+			u.addstr( " {}{} ".format( prfix, suffix ), colors[ pick ] )
+		#}
+	#}
+	return pick
 #}
 
 def updates( ):
