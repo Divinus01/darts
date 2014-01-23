@@ -34,6 +34,7 @@ def points( stdscr, y, x, inp, colors ):
 	#}
 	else:
 	#{
+		prfix = "S"
 		suffix = "BL"
 		pick = 2
 		if ( inp == 50 ):
